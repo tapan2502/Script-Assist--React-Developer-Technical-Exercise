@@ -1,4 +1,4 @@
-# Rick and Morty Explorer
+# Script-Assist--React-Developer-Technical-Exercise
 
 A modern web application for exploring characters, locations, and episodes from the Rick and Morty universe. This interactive application allows users to browse, search, and discover details about their favorite characters from the hit animated series.
 
