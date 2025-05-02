@@ -365,7 +365,7 @@ const Landing: FC = () => {
               component={Link}
               to={isAuthenticated ? "/characters" : "/register"}
               className={classes.ctaButton}
-              leftIcon={<Rocket size={20} />}
+              leftIcon={<Rocket size={19} />}
             >
               {isAuthenticated ? "Explore Now" : "Sign Up for Free"}
             </Button>
