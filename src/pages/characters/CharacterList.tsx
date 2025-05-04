@@ -108,7 +108,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 700,
   },
   pagination: {
-    marginTop: theme.spacing.xl * 2,
+    marginTop: `calc(${theme.spacing.xl} * 2)`
   },
   sortButton: {
     transition: "transform 0.2s ease",
@@ -140,12 +140,14 @@ const useStyles = createStyles((theme) => ({
   },
   downloadButton: {
     top: theme.spacing.xs,
-    right: theme.spacing.xl * 2,
+    right: `calc(${theme.spacing.xl} * 2)`,
   },
+  
   shareButton: {
     top: theme.spacing.xs,
-    right: theme.spacing.xl * 3.5,
+    right: `calc(${theme.spacing.xl} * 3.5)`,
   },
+  
   statusIndicator: {
     width: 10,
     height: 10,
@@ -153,10 +155,12 @@ const useStyles = createStyles((theme) => ({
     display: "inline-block",
     marginRight: theme.spacing.xs,
   },
+  
   noResults: {
     textAlign: "center",
-    padding: theme.spacing.xl * 2,
+    padding: `calc(${theme.spacing.xl} * 2)`,
   },
+  
   skeletonCard: {
     height: "100%",
   },
@@ -660,9 +664,10 @@ const CharacterList: FC = () => {
                   size="lg"
                   radius="md"
                   styles={(theme) => ({
-                    item: {
+                    control: {
                       "&[data-active]": {
                         backgroundImage: `linear-gradient(135deg, ${theme.colors.primary[6]} 0%, ${theme.colors.secondary[6]} 100%)`,
+                        color: theme.white,
                       },
                     },
                   })}

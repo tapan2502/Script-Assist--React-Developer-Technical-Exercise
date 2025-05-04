@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import type { FC } from "react"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import type { FC } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Header as MantineHeader,
   Group,
@@ -17,11 +17,11 @@ import {
   createStyles,
   rem,
   Container,
-} from "@mantine/core"
-import { useAuthStore } from "../store/auth.store"
-import { LogOut, User, Home, Users, Settings } from "lucide-react"
-import { useDisclosure } from "@mantine/hooks"
-import { motion } from "framer-motion"
+} from "@mantine/core";
+import { useAuthStore } from "../store/auth.store";
+import { LogOut, User, Home, Users, Settings } from "lucide-react";
+import { useDisclosure } from "@mantine/hooks";
+import { motion } from "framer-motion";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -151,23 +151,26 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.fn.rgba(theme.colors.primary[0], 0.7),
     color: theme.colors.primary[7],
   },
-}))
+}));
 
 const Header: FC = () => {
-  const { isAuthenticated, user, logout } = useAuthStore()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const theme = useMantineTheme()
-  const { classes, cx } = useStyles()
-  const [mobileMenuOpened, { toggle: toggleMobileMenu, close: closeMobileMenu }] = useDisclosure(false)
+  const { isAuthenticated, user, logout } = useAuthStore();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const theme = useMantineTheme();
+  const { classes, cx } = useStyles();
+  const [
+    mobileMenuOpened,
+    { toggle: toggleMobileMenu, close: closeMobileMenu },
+  ] = useDisclosure(false);
 
   const handleLogout = () => {
-    logout()
-    navigate("/login")
-    closeMobileMenu()
-  }
+    logout();
+    navigate("/login");
+    closeMobileMenu();
+  };
 
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <MantineHeader height={70} className={classes.header}>
@@ -176,29 +179,60 @@ const Header: FC = () => {
           {/* Logo */}
           <div className={classes.logoSection}>
             <Link to="/" className={classes.logo}>
-              <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
+              <motion.div
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.5 }}
+              >
                 <Box className={classes.logoIcon}>
                   <Text fw={700} fz="xl" c="white">
                     R
                   </Text>
                 </Box>
               </motion.div>
-              <Box sx={{ display: { base: "none", sm: "block" } }}>
-                <Text className={classes.logoText}>Rick and Morty Explorer</Text>
+              <Box
+                sx={(theme) => ({
+                  display: "none",
+
+                  [theme.fn.largerThan("sm")]: {
+                    display: "block",
+                  },
+                })}
+              >
+                <Text className={classes.logoText}>
+                  Rick and Morty Explorer
+                </Text>
               </Box>
             </Link>
           </div>
 
           {/* Navigation Links */}
           <Group className={classes.links} spacing={5}>
-            <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-              <Link to="/" className={cx(classes.navLink, isActive("/") && classes.navLinkActive)}>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link
+                to="/"
+                className={cx(
+                  classes.navLink,
+                  isActive("/") && classes.navLinkActive
+                )}
+              >
                 <Home size={16} />
                 <span>Home</span>
               </Link>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-              <Link to="/characters" className={cx(classes.navLink, isActive("/characters") && classes.navLinkActive)}>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link
+                to="/characters"
+                className={cx(
+                  classes.navLink,
+                  isActive("/characters") && classes.navLinkActive
+                )}
+              >
                 <Users size={16} />
                 <span>Characters</span>
               </Link>
@@ -208,10 +242,22 @@ const Header: FC = () => {
           {/* User Section */}
           <div className={classes.userSection}>
             {isAuthenticated ? (
-              <Menu position="bottom-end" shadow="md" width={200} transition="pop">
+              <Menu
+                position="bottom-end"
+                shadow="md"
+                width={200}
+                transitionProps={{ transition: "pop", duration: 150 }}
+              >
                 <Menu.Target>
-                  <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.2 }}>
-                    <Avatar color="primary" radius="xl" className={classes.avatar}>
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Avatar
+                      color="primary"
+                      radius="xl"
+                      className={classes.avatar}
+                    >
                       {user?.username.charAt(0).toUpperCase()}
                     </Avatar>
                   </motion.div>
@@ -225,24 +271,38 @@ const Header: FC = () => {
                   </Menu.Item>
                   <Menu.Item icon={<Settings size={14} />}>Settings</Menu.Item>
                   <Menu.Divider />
-                  <Menu.Item color="red" icon={<LogOut size={14} />} onClick={handleLogout}>
+                  <Menu.Item
+                    color="red"
+                    icon={<LogOut size={14} />}
+                    onClick={handleLogout}
+                  >
                     Logout
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             ) : (
               <>
-                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <Button variant="subtle" component={Link} to="/login">
                     Login
                   </Button>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <Button
                     component={Link}
                     to="/register"
                     variant="gradient"
-                    gradient={{ from: theme.colors.primary[6], to: theme.colors.secondary[6], deg: 45 }}
+                    gradient={{
+                      from: theme.colors.primary[6],
+                      to: theme.colors.secondary[6],
+                      deg: 45,
+                    }}
                   >
                     Register
                   </Button>
@@ -251,7 +311,12 @@ const Header: FC = () => {
             )}
 
             {/* Mobile Menu Button */}
-            <Burger opened={mobileMenuOpened} onClick={toggleMobileMenu} className={classes.burger} size="sm" />
+            <Burger
+              opened={mobileMenuOpened}
+              onClick={toggleMobileMenu}
+              className={classes.burger}
+              size="sm"
+            />
           </div>
         </div>
       </Container>
@@ -280,7 +345,10 @@ const Header: FC = () => {
               <Link
                 to="/"
                 onClick={closeMobileMenu}
-                className={cx(classes.mobileNavLink, isActive("/") && classes.mobileNavLinkActive)}
+                className={cx(
+                  classes.mobileNavLink,
+                  isActive("/") && classes.mobileNavLinkActive
+                )}
               >
                 <Home size={18} />
                 <span>Home</span>
@@ -289,19 +357,33 @@ const Header: FC = () => {
               <Link
                 to="/characters"
                 onClick={closeMobileMenu}
-                className={cx(classes.mobileNavLink, isActive("/characters") && classes.mobileNavLinkActive)}
+                className={cx(
+                  classes.mobileNavLink,
+                  isActive("/characters") && classes.mobileNavLinkActive
+                )}
               >
                 <Users size={18} />
                 <span>Characters</span>
               </Link>
 
-              <Button color="red" leftIcon={<LogOut size={18} />} onClick={handleLogout} variant="light">
+              <Button
+                color="red"
+                leftIcon={<LogOut size={18} />}
+                onClick={handleLogout}
+                variant="light"
+              >
                 Logout
               </Button>
             </>
           ) : (
             <>
-              <Button fullWidth variant="subtle" component={Link} to="/login" onClick={closeMobileMenu}>
+              <Button
+                fullWidth
+                variant="subtle"
+                component={Link}
+                to="/login"
+                onClick={closeMobileMenu}
+              >
                 Login
               </Button>
               <Button
@@ -310,7 +392,11 @@ const Header: FC = () => {
                 to="/register"
                 onClick={closeMobileMenu}
                 variant="gradient"
-                gradient={{ from: theme.colors.primary[6], to: theme.colors.secondary[6], deg: 45 }}
+                gradient={{
+                  from: theme.colors.primary[6],
+                  to: theme.colors.secondary[6],
+                  deg: 45,
+                }}
               >
                 Register
               </Button>
@@ -319,7 +405,7 @@ const Header: FC = () => {
         </Stack>
       </Drawer>
     </MantineHeader>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

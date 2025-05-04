@@ -188,7 +188,7 @@ const useStyles = createStyles((theme) => ({
     color: theme.white,
     fontSize: rem(22),
     lineHeight: 1.6,
-    marginBottom: theme.spacing.xl * 2,
+    marginBottom: `calc(${theme.spacing.xl} * 2)`,
     textAlign: "center",
     maxWidth: 800,
     margin: "0 auto",

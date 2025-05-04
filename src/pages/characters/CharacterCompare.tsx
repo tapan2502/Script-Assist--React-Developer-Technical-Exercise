@@ -85,8 +85,9 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 700,
   },
   compareSection: {
-    marginTop: theme.spacing.xl * 2,
+    marginTop: parseInt(theme.spacing.xl) * 2,
   },
+  
   compareTitle: {
     fontSize: rem(24),
     fontWeight: 700,
