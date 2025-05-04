@@ -8,6 +8,7 @@ import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import CharacterList from "./pages/characters/CharacterList"
 import CharacterDetail from "./pages/characters/CharacterDetail"
+import CharacterCompare from "./pages/characters/CharacterCompare"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Layout from "./components/Layout"
 import ErrorBoundary from "./components/ErrorBoundary"
@@ -60,6 +61,18 @@ export const routes = [
             <Layout>
               <ErrorBoundary>
                 <CharacterDetail />
+              </ErrorBoundary>
+            </Layout>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/characters/compare/:id1/:id2",
+        element: (
+          <ProtectedRoute>
+            <Layout>
+              <ErrorBoundary>
+                <CharacterCompare />
               </ErrorBoundary>
             </Layout>
           </ProtectedRoute>

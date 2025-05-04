@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from "react"
-import Header from "./Header"
 import { Box } from "@mantine/core"
+import Header from "./Header"
 
 interface LayoutProps {
   children: ReactNode
@@ -8,9 +8,22 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={(theme) => ({
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        background: "linear-gradient(180deg, rgba(244,247,252,1) 0%, rgba(255,255,255,1) 100%)",
+      })}
+    >
       <Header />
-      <Box component="main" sx={{ flex: 1, padding: "0 16px" }}>
+      <Box
+        component="main"
+        sx={(theme) => ({
+          flex: 1,
+          position: "relative",
+        })}
+      >
         {children}
       </Box>
     </Box>

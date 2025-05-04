@@ -1,6 +1,6 @@
 "use client"
 
-import { type FC, useState } from "react"
+import { type FC, useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import {
   Container,
@@ -134,6 +134,43 @@ const useStyles = createStyles((theme) => ({
       transform: "scale(1.1)",
     },
   },
+  favoriteButton: {
+    transition: "transform 0.2s ease",
+    "&:hover": {
+      transform: "scale(1.1)",
+    },
+  },
+  detailsGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: theme.spacing.md,
+    marginTop: theme.spacing.xl,
+
+    [theme.fn.smallerThan("sm")]: {
+      gridTemplateColumns: "1fr",
+    },
+  },
+  detailCard: {
+    padding: theme.spacing.md,
+    borderRadius: theme.radius.md,
+    border: `1px solid ${theme.colors.gray[2]}`,
+    backgroundColor: theme.white,
+    height: "100%",
+  },
+  detailIcon: {
+    backgroundColor: theme.fn.rgba(theme.colors.primary[0], 0.7),
+    color: theme.colors.primary[7],
+  },
+  detailLabel: {
+    fontSize: theme.fontSizes.sm,
+    color: theme.colors.gray[6],
+    fontWeight: 500,
+  },
+  detailValue: {
+    fontSize: theme.fontSizes.md,
+    fontWeight: 600,
+    color: theme.colors.dark[7],
+  },
 }))
 
 const CharacterDetail: FC = () => {
@@ -141,6 +178,38 @@ const CharacterDetail: FC = () => {
   const navigate = useNavigate()
   const { classes } = useStyles()
   const [activeTab, setActiveTab] = useState<string | null>("info")
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  // Check if character is in favorites
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem("favoriteCharacters")
+    if (savedFavorites && id) {
+      const favorites = JSON.parse(savedFavorites) as number[]
+      setIsFavorite(favorites.includes(Number(id)))
+    }
+  }, [id])
+
+  // Toggle favorite status
+  const toggleFavorite = () => {
+    if (!id) return
+
+    const characterId = Number(id)
+    const savedFavorites = localStorage.getItem("favoriteCharacters")
+    let favorites: number[] = []
+
+    if (savedFavorites) {
+      favorites = JSON.parse(savedFavorites)
+    }
+
+    if (isFavorite) {
+      favorites = favorites.filter((favId) => favId !== characterId)
+    } else {
+      favorites.push(characterId)
+    }
+
+    localStorage.setItem("favoriteCharacters", JSON.stringify(favorites))
+    setIsFavorite(!isFavorite)
+  }
 
   // Fetch character data
   const {
@@ -267,8 +336,15 @@ const CharacterDetail: FC = () => {
               <Share2 size={18} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label="Add to favorites">
-            <ActionIcon variant="light" radius="xl" size="lg" color="pink" className={classes.actionButton}>
+          <Tooltip label={isFavorite ? "Remove from favorites" : "Add to favorites"}>
+            <ActionIcon
+              variant={isFavorite ? "filled" : "light"}
+              radius="xl"
+              size="lg"
+              color="pink"
+              className={classes.favoriteButton}
+              onClick={toggleFavorite}
+            >
               <Heart size={18} />
             </ActionIcon>
           </Tooltip>
@@ -304,63 +380,55 @@ const CharacterDetail: FC = () => {
 
               <Divider my="md" />
 
-              <SimpleGrid cols={2} spacing="md">
-                <Paper p="md" withBorder className={classes.infoCard}>
+              <div className={classes.detailsGrid}>
+                <div className={classes.detailCard}>
                   <Group spacing="xs">
-                    <ThemeIcon size="lg" variant="light" radius="xl" color="primary">
+                    <ThemeIcon size="lg" variant="light" radius="xl" className={classes.detailIcon}>
                       <Dna size={18} />
                     </ThemeIcon>
                     <div>
-                      <Text size="xs" color="dimmed">
-                        Species
-                      </Text>
-                      <Text weight={600}>{character.species}</Text>
+                      <Text className={classes.detailLabel}>Species</Text>
+                      <Text className={classes.detailValue}>{character.species}</Text>
                     </div>
                   </Group>
-                </Paper>
+                </div>
 
-                <Paper p="md" withBorder className={classes.infoCard}>
+                <div className={classes.detailCard}>
                   <Group spacing="xs">
-                    <ThemeIcon size="lg" variant="light" radius="xl" color="primary">
+                    <ThemeIcon size="lg" variant="light" radius="xl" className={classes.detailIcon}>
                       <User size={18} />
                     </ThemeIcon>
                     <div>
-                      <Text size="xs" color="dimmed">
-                        Gender
-                      </Text>
-                      <Text weight={600}>{character.gender}</Text>
+                      <Text className={classes.detailLabel}>Gender</Text>
+                      <Text className={classes.detailValue}>{character.gender}</Text>
                     </div>
                   </Group>
-                </Paper>
+                </div>
 
-                <Paper p="md" withBorder className={classes.infoCard}>
+                <div className={classes.detailCard}>
                   <Group spacing="xs">
-                    <ThemeIcon size="lg" variant="light" radius="xl" color="primary">
+                    <ThemeIcon size="lg" variant="light" radius="xl" className={classes.detailIcon}>
                       <MapPin size={18} />
                     </ThemeIcon>
                     <div>
-                      <Text size="xs" color="dimmed">
-                        Origin
-                      </Text>
-                      <Text weight={600}>{character.origin.name}</Text>
+                      <Text className={classes.detailLabel}>Origin</Text>
+                      <Text className={classes.detailValue}>{character.origin.name}</Text>
                     </div>
                   </Group>
-                </Paper>
+                </div>
 
-                <Paper p="md" withBorder className={classes.infoCard}>
+                <div className={classes.detailCard}>
                   <Group spacing="xs">
-                    <ThemeIcon size="lg" variant="light" radius="xl" color="primary">
+                    <ThemeIcon size="lg" variant="light" radius="xl" className={classes.detailIcon}>
                       <Calendar size={18} />
                     </ThemeIcon>
                     <div>
-                      <Text size="xs" color="dimmed">
-                        Created
-                      </Text>
-                      <Text weight={600}>{new Date(character.created).toLocaleDateString()}</Text>
+                      <Text className={classes.detailLabel}>Created</Text>
+                      <Text className={classes.detailValue}>{new Date(character.created).toLocaleDateString()}</Text>
                     </div>
                   </Group>
-                </Paper>
-              </SimpleGrid>
+                </div>
+              </div>
 
               <Text size="sm" color="dimmed" align="center" mt="xl">
                 Appears in {character.episode.length} episodes
