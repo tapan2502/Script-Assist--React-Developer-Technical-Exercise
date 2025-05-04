@@ -8,34 +8,52 @@ import {
   Container,
   Button,
   Group,
-  Card,
-  SimpleGrid,
-  ThemeIcon,
   createStyles,
   rem,
   Box,
   useMantineTheme,
   Overlay,
   keyframes,
+  SimpleGrid,
 } from "@mantine/core"
 import { useAuthStore } from "../../store/auth.store"
-import { Users, Search, ChevronRight, Rocket, Globe, Zap, Compass, Star } from "lucide-react"
+import { Rocket, ArrowDown } from "lucide-react"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import PortalScene from "./components/PortalScene"
 import CharacterShowcase from "./components/CharacterShowcase"
 import StatsCounter from "./components/StatsCounter"
+import FeaturesSection from "./components/FeaturesSection"
+import EpisodesShowcase from "./components/EpisodesShowcase"
 
 // Animation keyframes
 const pulse = keyframes({
   "0%": { boxShadow: "0 0 0 0 rgba(17, 161, 255, 0.4)" },
-  "70%": { boxShadow: "0 0 0 10px rgba(17, 161, 255, 0)" },
+  "70%": { boxShadow: "0 0 10px rgba(17, 161, 255, 0)" },
   "100%": { boxShadow: "0 0 0 0 rgba(17, 161, 255, 0)" },
 })
 
 const shimmer = keyframes({
   "0%": { backgroundPosition: "-200% 0" },
   "100%": { backgroundPosition: "200% 0" },
+})
+
+const gradientMove = keyframes({
+  "0%": { backgroundPosition: "0% 50%" },
+  "50%": { backgroundPosition: "100% 50%" },
+  "100%": { backgroundPosition: "0% 50%" },
+})
+
+const textGlow = keyframes({
+  "0%": { textShadow: "0 0 5px rgba(61, 255, 244, 0.3), 0 0 10px rgba(61, 255, 244, 0.2)" },
+  "50%": { textShadow: "0 0 20px rgba(61, 255, 244, 0.8), 0 0 30px rgba(61, 255, 244, 0.5)" },
+  "100%": { textShadow: "0 0 5px rgba(61, 255, 244, 0.3), 0 0 10px rgba(61, 255, 244, 0.2)" },
+})
+
+const float = keyframes({
+  "0%": { transform: "translateY(0px)" },
+  "50%": { transform: "translateY(-10px)" },
+  "100%": { transform: "translateY(0px)" },
 })
 
 const useStyles = createStyles((theme) => ({
@@ -78,10 +96,14 @@ const useStyles = createStyles((theme) => ({
   },
 
   heroHighlight: {
-    background: `linear-gradient(135deg, ${theme.colors.primary[5]} 0%, ${theme.colors.secondary[5]} 100%)`,
+    background: `linear-gradient(90deg, #11a1ff, #35ff93, #ff8111, #11a1ff)`,
+    backgroundSize: "300% 100%",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
-    display: "inline",
+    display: "inline-block",
+    animation: `${gradientMove} 6s ease infinite, ${textGlow} 3s ease-in-out infinite`,
+    padding: "0 8px",
+    borderRadius: "4px",
   },
 
   heroDescription: {
@@ -124,37 +146,13 @@ const useStyles = createStyles((theme) => ({
     animation: `${pulse} 2s infinite`,
   },
 
-  featureIcon: {
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    "&:hover": {
-      transform: "rotate(10deg) scale(1.1)",
-      boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
-    },
-  },
-
-  featureCard: {
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    height: "100%",
-    "&:hover": {
-      transform: "translateY(-10px)",
-      boxShadow: theme.shadows.lg,
-    },
-  },
-
-  featureTitle: {
-    fontSize: rem(20),
-    fontWeight: 700,
-    marginTop: theme.spacing.md,
-    marginBottom: theme.spacing.xs,
-  },
-
   sectionTitle: {
     fontSize: rem(48),
     fontWeight: 900,
     lineHeight: 1.1,
     marginBottom: rem(60),
     textAlign: "center",
-    background: `linear-gradient(135deg, ${theme.colors.primary[7]} 0%, ${theme.colors.secondary[7]} 100%)`,
+    background: `linear-gradient(135deg, ${theme.colors.primary[7]} 0%, ${theme.colors.primary[7]} 100%)`,
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
 
@@ -167,7 +165,7 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
     padding: `${rem(100)} 0`,
     overflow: "hidden",
-    background: `linear-gradient(135deg, ${theme.colors.primary[7]} 0%, ${theme.colors.secondary[7]} 100%)`,
+    background: `linear-gradient(135deg, ${theme.colors.primary[7]} 0%, ${theme.colors.primary[7]} 100%)`,
   },
 
   ctaTitle: {
@@ -222,12 +220,14 @@ const useStyles = createStyles((theme) => ({
   },
 
   shimmerText: {
-    background: `linear-gradient(90deg, ${theme.colors.primary[5]} 0%, ${theme.colors.secondary[5]} 50%, ${theme.colors.primary[5]} 100%)`,
-    backgroundSize: "200% auto",
+    background: `linear-gradient(90deg, #11a1ff, #35ff93, #ff8111, #11a1ff)`,
+    backgroundSize: "300% 100%",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
-    animation: `${shimmer} 3s linear infinite`,
-    display: "inline",
+    animation: `${gradientMove} 6s ease infinite, ${textGlow} 3s ease-in-out infinite`,
+    display: "inline-block",
+    padding: "0 8px",
+    borderRadius: "4px",
   },
 
   statsSection: {
@@ -235,7 +235,7 @@ const useStyles = createStyles((theme) => ({
     background: theme.fn.linearGradient(
       45,
       theme.fn.rgba(theme.colors.primary[9], 0.8),
-      theme.fn.rgba(theme.colors.secondary[9], 0.8),
+      theme.fn.rgba(theme.colors.primary[9], 0.8),
     ),
     color: theme.white,
   },
@@ -279,50 +279,38 @@ const useStyles = createStyles((theme) => ({
   showcaseHighlight: {
     color: theme.colors.primary[7],
   },
-}))
 
-const features = [
-  {
-    icon: Users,
-    title: "Character Database",
-    description:
-      "Explore a comprehensive database of Rick and Morty characters with detailed information about their origins, species, and status.",
+  scrollDownButton: {
+    position: "absolute",
+    bottom: rem(30),
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 10,
+    backgroundColor: "transparent",
+    border: `2px solid ${theme.white}`,
+    color: theme.white,
+    borderRadius: "50%",
+    width: rem(50),
+    height: rem(50),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    animation: `${float} 2s ease-in-out infinite`,
+    transition: "all 0.3s ease",
+
+    "&:hover": {
+      backgroundColor: theme.fn.rgba(theme.white, 0.1),
+      transform: "translateX(-50%) scale(1.1)",
+    },
   },
-  {
-    icon: Search,
-    title: "Advanced Search",
-    description:
-      "Find characters quickly with our powerful search and filtering capabilities. Sort by name, status, species, or gender.",
-  },
-  {
-    icon: Globe,
-    title: "Multiverse Locations",
-    description:
-      "Discover the countless dimensions and planets from the show, from Earth C-137 to the Citadel of Ricks.",
-  },
-  {
-    icon: Compass,
-    title: "Interactive Explorer",
-    description: "Navigate through the Rick and Morty universe with our intuitive and interactive explorer interface.",
-  },
-  {
-    icon: Star,
-    title: "Favorites Collection",
-    description: "Save your favorite characters to your personal collection for quick access and reference.",
-  },
-  {
-    icon: Zap,
-    title: "Real-time Updates",
-    description:
-      "Our database is constantly updated with the latest information from the show as new episodes are released.",
-  },
-]
+}))
 
 const Landing: FC = () => {
   const { classes } = useStyles()
   const { isAuthenticated } = useAuthStore()
   const theme = useMantineTheme()
   const containerRef = useRef<HTMLDivElement>(null)
+  const featuresRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -333,7 +321,7 @@ const Landing: FC = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8])
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100])
 
-  const [featuresRef, featuresInView] = useInView({
+  const [statsRef, statsInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
@@ -343,63 +331,16 @@ const Landing: FC = () => {
     threshold: 0.1,
   })
 
-  const [statsRef, statsInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
   const [ctaRef, ctaInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
 
-  const featureVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: 0.1 * i,
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    }),
+  const scrollToFeatures = () => {
+    if (featuresRef.current) {
+      featuresRef.current.scrollIntoView({ behavior: "smooth" })
+    }
   }
-
-  const items = features.map((feature, index) => (
-    <motion.div
-      key={feature.title}
-      custom={index}
-      variants={featureVariants}
-      initial="hidden"
-      animate={featuresInView ? "visible" : "hidden"}
-    >
-      <Card shadow="md" radius="lg" className={classes.featureCard} padding="xl">
-        <ThemeIcon
-          size={rem(70)}
-          radius={rem(70)}
-          variant="gradient"
-          gradient={{ deg: 133, from: theme.colors.primary[5], to: theme.colors.secondary[5] }}
-          className={classes.featureIcon}
-        >
-          <feature.icon size={rem(34)} />
-        </ThemeIcon>
-        <Text className={classes.featureTitle}>{feature.title}</Text>
-        <Text fz="md" c="dimmed">
-          {feature.description}
-        </Text>
-        <Button
-          variant="subtle"
-          rightIcon={<ChevronRight size={16} />}
-          mt="md"
-          component={Link}
-          to={isAuthenticated ? "/characters" : "/login"}
-        >
-          Learn more
-        </Button>
-      </Card>
-    </motion.div>
-  ))
 
   return (
     <Box ref={containerRef}>
@@ -446,7 +387,7 @@ const Landing: FC = () => {
                     size="xl"
                     className={`${classes.heroControl} ${classes.pulseButton}`}
                     variant="gradient"
-                    gradient={{ from: theme.colors.primary[5], to: theme.colors.secondary[5], deg: 45 }}
+                    gradient={{ from: theme.colors.primary[5], to: theme.colors.primary[5], deg: 45 }}
                     leftIcon={<Rocket size={20} />}
                   >
                     Explore Characters
@@ -469,7 +410,7 @@ const Landing: FC = () => {
                       size="xl"
                       className={`${classes.heroControl} ${classes.pulseButton}`}
                       variant="gradient"
-                      gradient={{ from: theme.colors.primary[5], to: theme.colors.secondary[5], deg: 45 }}
+                      gradient={{ from: theme.colors.primary[5], to: theme.colors.primary[5], deg: 45 }}
                       leftIcon={<Rocket size={20} />}
                     >
                       Get Started
@@ -480,6 +421,10 @@ const Landing: FC = () => {
             </motion.div>
           </Container>
         </motion.div>
+
+        <Button className={classes.scrollDownButton} onClick={scrollToFeatures} variant="outline">
+          <ArrowDown size={20} />
+        </Button>
       </Box>
 
       <Box className={classes.statsSection} ref={statsRef}>
@@ -532,27 +477,11 @@ const Landing: FC = () => {
         </Container>
       </Box>
 
-      <Container className={classes.wrapper} size="lg" ref={featuresRef}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={featuresInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Title className={classes.sectionTitle}>Discover the Rick and Morty Universe</Title>
-        </motion.div>
+      <div ref={featuresRef}>
+        <FeaturesSection />
+      </div>
 
-        <SimpleGrid
-          mt={60}
-          cols={3}
-          spacing={30}
-          breakpoints={[
-            { maxWidth: "md", cols: 2 },
-            { maxWidth: "xs", cols: 1 },
-          ]}
-        >
-          {items}
-        </SimpleGrid>
-      </Container>
+      <EpisodesShowcase />
 
       <Box className={classes.showcaseSection} ref={showcaseRef}>
         <Container size="lg">
