@@ -102,6 +102,14 @@ rick-and-morty-explorer/
 ├── public/                  # Static assets
 └── package.json             # Project dependencies
 ```
+## Recent Enhancements
+**Animated Portal Scene**: Interactive portal visualization on the landing page
+**Character Comparison Tool**: Side-by-side comparison of any two characters
+**Persistent Favorites**: Favorites system with localStorage persistence
+**Real-time Search**: Instant search results as you type
+**Animated UI Elements**: Smooth transitions and animations throughout the application
+**Improved Mobile Experience**: Optimized layout and interactions for mobile devices
+**Enhanced Character Cards**: Better visual presentation with status indicators and badges
 
 ## API Information
 
