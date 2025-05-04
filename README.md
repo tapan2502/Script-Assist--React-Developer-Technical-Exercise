@@ -4,24 +4,28 @@ A modern web application for exploring characters, locations, and episodes from 
 
 ## Features
 
-- **Character Database**: Browse through hundreds of characters from the show
-- **Advanced Search**: Filter and search characters by name, status, species, and gender
-- **Character Details**: View comprehensive information about each character
+- **Character Explorer**: Browse, search, and filter all characters from the show
+- **Episode Showcase**: View episodes organized by season with detailed information
+- **Character Comparison**: Compare any two characters side by side
+- **Authentication System**: User registration and login functionality
+- **Responsive Design**: Fully responsive UI that works on all devices
+- **Interactive UI**: Engaging animations and transitions throughout the application
 - **Favorites System**: Save your favorite characters for quick access
-- **Responsive Design**: Fully responsive interface that works on desktop and mobile devices
-- **User Authentication**: Secure login and registration system
 
 ## Technologies Used
 
 ### Frontend:
 
-- React 18
-- React Router v6
-- Mantine UI Component Library
-- TypeScript
-- Tanstack React Query
-- Lucide React Icons
-- Zustand for state management
+- **React**: UI library for building the user interface
+- **TypeScript**: Type-safe JavaScript
+- **Vite**: Fast build tool and development server
+- **Mantine UI**: Component library for consistent design
+- **Framer Motion**: Animation library for smooth transitions
+- **React Router**: For navigation and routing
+- **Zustand**: State management
+- **Axios**: HTTP client for API requests
+- **React Query**: Data fetching and caching
+- **Rick and Morty API**: Data source for characters, episodes, and locations
 
 ### API:
 
@@ -102,15 +106,32 @@ rick-and-morty-explorer/
 ├── public/                  # Static assets
 └── package.json             # Project dependencies
 ```
-## Recent Enhancements
-**Animated Portal Scene**: Interactive portal visualization on the landing page
-**Character Comparison Tool**: Side-by-side comparison of any two characters
-**Persistent Favorites**: Favorites system with localStorage persistence
-**Real-time Search**: Instant search results as you type
-**Animated UI Elements**: Smooth transitions and animations throughout the application
-**Improved Mobile Experience**: Optimized layout and interactions for mobile devices
-**Enhanced Character Cards**: Better visual presentation with status indicators and badges
 
+## Key Features Explained
+
+### Character Explorer
+
+Browse through all characters from the show with advanced filtering and sorting options. View detailed information about each character including their status, species, origin, and episodes they appear in.
+
+### Episode Showcase
+
+Explore episodes organized by season. Each episode card displays the episode name, air date, character count, and popularity status. The showcase features a clean, visually appealing design with season tabs for easy navigation.
+
+### Character Comparison
+
+Select any two characters to compare their attributes side by side, including status, species, gender, origin, and episode appearances.
+
+### Authentication System
+
+Register and login functionality with secure authentication. Demo accounts are available for testing.
+
+### Interactive UI
+
+Engaging animations and transitions throughout the application, including a portal animation on the landing page, hover effects on cards, and smooth page transitions.
+
+## Responsive Design
+
+The application is fully responsive and works on all devices, from mobile phones to desktop computers.
 ## API Information
 
 This project uses the Rick and Morty API, which provides data about characters, locations, and episodes from the show. The API is free to use and requires no authentication.
@@ -125,8 +146,10 @@ This project uses the Rick and Morty API, which provides data about characters, 
 
 ## Acknowledgments
 
-- Rick and Morty API for providing the data
-- Mantine UI for the component library
-- React Query for data fetching and caching
-- Lucide React for the beautiful icons
+[Rick and Morty API](https://rickandmortyapi.com/) for providing the data
+[Mantine UI](https://mantine.dev/) for the component library
+[Framer Motion](https://www.framer.com/motion/) for animations
+[React Query](https://react-query.tanstack.com/) for data fetching
+[Zustand](https://github.com/pmndrs/zustand) for state management
+
 
